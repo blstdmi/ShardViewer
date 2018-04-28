@@ -1,5 +1,3 @@
-var totalShards = 336;
-
 var ws = new WebSocket("ws://localhost:3333/ws");
 
 ws.onmessage = function(evt) {
@@ -49,7 +47,6 @@ ws.onmessage = function(evt) {
                     }
                 }
             }
-
         }
     });
 };
