@@ -11,7 +11,7 @@ env = Environment(
     autoescape = select_autoescape(['html'])
 )
 
-totalShards = 20
+totalShards = 5
 
 @app.route('/')
 async def index():
