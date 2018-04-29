@@ -1,4 +1,4 @@
-var ws = new WebSocket("ws://localhost:3333/ws");
+var ws = new WebSocket("ws://perkelle.com:3333/ws");
 
 ws.onmessage = function(evt) {
     var msg = evt.data.toString();
