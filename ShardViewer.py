@@ -15,7 +15,7 @@ totalShards = 5
 
 @app.route('/')
 async def index():
-    with urllib.request.urlopen('http://localhost:3333/shard/all') as response:
+    with urllib.request.urlopen('http://perkelle.com:3333/shard/all') as response:
         raw = json.loads(response.read())
         parsed = {}
 
