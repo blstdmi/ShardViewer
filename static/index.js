@@ -3,52 +3,60 @@ var ws = new WebSocket("ws://perkelle.com:3333/ws");
 ws.onmessage = function(evt) {
     var msg = evt.data.toString();
     var parsed = JSON.parse(msg);
-    var id = parsed["ID"],
-        status = parsed["Status"];
+    var type = parsed["Type"];
 
-    var table = document.getElementById("statuses"),
-        tbody = table.tBodies[0];
-    $('tr').each(function(i, el) {
-        if(el.parentElement.tagName !== "THEAD") {
-            var $tds = $(this).find('td'),
-                elementId = $tds.eq(0).text(),
-                currentStatus = $tds.eq(1).text();
+     if(type == "status") {
+         var id = parsed["ID"],
+             status = parsed["Status"];
 
-            if(elementId == id) {
-                if (currentStatus !== status) {
-                    el.remove();
-                    if (status !== "CONNECTED") {
-                        var tr = tbody.insertRow(0);
+         var table = document.getElementById("statuses"),
+            tbody = table.tBodies[0];
+        $('tr').each(function(i, el) {
+            if(el.parentElement.tagName !== "THEAD") {
+                var $tds = $(this).find('td'),
+                    elementId = $tds.eq(0).text(),
+                    currentStatus = $tds.eq(1).text();
 
-                        var idTd = document.createElement('td');
-                        idTd.innerHTML = id;
+                if(elementId == id) {
+                    if (currentStatus !== status) {
+                        el.remove();
+                        if (status !== "CONNECTED") {
+                            var tr = tbody.insertRow(0);
 
-                        var statusTd = document.createElement('td');
-                        statusTd.innerHTML = status;
+                            var idTd = document.createElement('td');
+                            idTd.innerHTML = id;
 
-                        tr.appendChild(idTd);
-                        tr.appendChild(statusTd);
-                        $(tr).children('td').addClass("error");
-                        $(tr).children('td').addClass("shard-" + id);
-                    }
-                    else {
-                        var tr = tbody.insertRow(id);
+                            var statusTd = document.createElement('td');
+                            statusTd.innerHTML = status;
 
-                        var idTd = document.createElement('td');
-                        idTd.innerHTML = id;
+                            tr.appendChild(idTd);
+                            tr.appendChild(statusTd);
+                            $(tr).children('td').addClass("error");
+                            $(tr).children('td').addClass("shard-" + id);
+                        }
+                        else {
+                            var tr = tbody.insertRow(id);
 
-                        var statusTd = document.createElement('td');
-                        statusTd.innerHTML = status;
+                            var idTd = document.createElement('td');
+                            idTd.innerHTML = id;
 
-                        tr.appendChild(idTd);
-                        tr.appendChild(statusTd);
-                        $(tr).children('td').addClass("positive");
-                        $(tr).children('td').addClass("shard-" + id);
+                            var statusTd = document.createElement('td');
+                            statusTd.innerHTML = status;
+
+                            tr.appendChild(idTd);
+                            tr.appendChild(statusTd);
+                            $(tr).children('td').addClass("positive");
+                            $(tr).children('td').addClass("shard-" + id);
+                        }
                     }
                 }
             }
-        }
-    });
+        });
+     }
+     else if(type == "count") {
+         var count = parsed["Guilds"];
+        document.getElementsByClassName("server-count")[0].innerHTML = count;
+     }
 };
 
 function colourShards() {
